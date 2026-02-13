@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://novelcraft/schemas/world_state.json",
+  "title": "WorldState",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "snapshot_id",
+    "tick",
+    "resources",
+    "constraints",
+    "environment",
+    "derived"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema/model version for forward compatibility. source: input"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^ws_[a-zA-Z0-9_-]+$",
+      "description": "Unique world snapshot id. source: runtime"
+    },
+    "tick": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Simulation clock step. source: runtime"
+    },
+    "resources": {
+      "type": "object",
+      "description": "Global shared resource pools. source: runtime",
+      "additionalProperties": {
+        "type": "number"
+      },
+      "required": ["water", "authority", "knowledge", "affect"],
+      "properties": {
+        "water": { "type": "number", "minimum": 0 },
+        "authority": { "type": "number", "minimum": 0 },
+        "knowledge": { "type": "number", "minimum": 0 },
+        "affect": { "type": "number", "minimum": 0 }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Hard world limits. source: input",
+      "required": ["tech_level", "magic_budget", "max_actions_per_tick"],
+      "properties": {
+        "tech_level": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "magic_budget": { "type": "number", "minimum": 0 },
+        "max_actions_per_tick": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "External environment variables. source: runtime",
+      "required": ["weather", "social_entropy", "event_flags"],
+      "properties": {
+        "weather": { "type": "string" },
+        "social_entropy": { "type": "number", "minimum": 0, "maximum": 1 },
+        "event_flags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "derived": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Computed metrics. source: derived",
+      "required": ["resource_pressure", "instability_index"],
+      "properties": {
+        "resource_pressure": { "type": "number", "minimum": 0 },
+        "instability_index": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}

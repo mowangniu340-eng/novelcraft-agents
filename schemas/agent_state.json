@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://novelcraft/schemas/agent_state.json",
+  "title": "AgentState",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "snapshot_id",
+    "agent_id",
+    "name",
+    "desire_vector",
+    "memory_refs",
+    "shadow",
+    "relationship_weights",
+    "derived"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema/model version for forward compatibility. source: input"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^as_[a-zA-Z0-9_-]+$",
+      "description": "Agent snapshot id. source: runtime"
+    },
+    "agent_id": {
+      "type": "string",
+      "pattern": "^agent_[a-zA-Z0-9_-]+$",
+      "description": "Stable character id. source: input"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Display name. source: input"
+    },
+    "desire_vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Dynamic needs vector. source: runtime",
+      "required": ["survival", "control", "belonging", "self_actualization"],
+      "properties": {
+        "survival": { "type": "number", "minimum": 0, "maximum": 1 },
+        "control": { "type": "number", "minimum": 0, "maximum": 1 },
+        "belonging": { "type": "number", "minimum": 0, "maximum": 1 },
+        "self_actualization": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "memory_refs": {
+      "type": "array",
+      "description": "Memory lattice references. source: runtime",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["memory_id", "memory_type", "confidence", "valence"],
+        "properties": {
+          "memory_id": { "type": "string", "pattern": "^mem_[a-zA-Z0-9_-]+$" },
+          "memory_type": { "type": "string", "enum": ["episodic", "semantic", "rumor"] },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "valence": { "type": "number", "minimum": -1, "maximum": 1 }
+        }
+      }
+    },
+    "shadow": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Hidden motives. source: input",
+      "required": ["secret", "fear", "taboo"],
+      "properties": {
+        "secret": { "type": "string" },
+        "fear": { "type": "string" },
+        "taboo": { "type": "string" }
+      }
+    },
+    "relationship_weights": {
+      "type": "object",
+      "description": "Affinity/trust per known agent. source: runtime",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": -1,
+        "maximum": 1
+      }
+    },
+    "derived": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Computed metrics. source: derived",
+      "required": ["stress_index", "intent_score"],
+      "properties": {
+        "stress_index": { "type": "number", "minimum": 0, "maximum": 1 },
+        "intent_score": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}

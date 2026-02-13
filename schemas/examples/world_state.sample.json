@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "snapshot_id": "ws_0001",
+  "tick": 1,
+  "resources": {
+    "water": 10,
+    "authority": 7,
+    "knowledge": 5,
+    "affect": 4
+  },
+  "constraints": {
+    "tech_level": 2,
+    "magic_budget": 0,
+    "max_actions_per_tick": 3
+  },
+  "environment": {
+    "weather": "rain",
+    "social_entropy": 0.42,
+    "event_flags": ["blackout_warning"]
+  },
+  "derived": {
+    "resource_pressure": 0.35,
+    "instability_index": 0.51
+  }
+}

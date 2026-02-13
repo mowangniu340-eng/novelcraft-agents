@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://novelcraft/schemas/event_log.json",
+  "title": "EventLog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "event_id",
+    "event_trace_id",
+    "tick",
+    "timestamp",
+    "actor_id",
+    "action",
+    "target_ids",
+    "resource_delta",
+    "cause_refs",
+    "derived"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema/model version for forward compatibility. source: input"
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^evt_[a-zA-Z0-9_-]+$",
+      "description": "Unique event id. source: runtime"
+    },
+    "event_trace_id": {
+      "type": "string",
+      "pattern": "^trace_[a-zA-Z0-9_-]+$",
+      "description": "Causal chain id. source: runtime"
+    },
+    "tick": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Simulation tick when event happened. source: runtime"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Wall-clock timestamp. source: runtime"
+    },
+    "actor_id": {
+      "type": "string",
+      "pattern": "^agent_[a-zA-Z0-9_-]+$",
+      "description": "Action initiator. source: runtime"
+    },
+    "action": {
+      "type": "string",
+      "enum": ["negotiate", "lie", "threaten", "trade", "reveal", "withhold"],
+      "description": "Atomic behavior label. source: runtime"
+    },
+    "target_ids": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^agent_[a-zA-Z0-9_-]+$" },
+      "description": "One or many event targets. source: runtime"
+    },
+    "resource_delta": {
+      "type": "object",
+      "description": "Per-resource changes from this event. source: derived",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "cause_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Upstream state refs for traceability. source: runtime",
+      "required": ["world_snapshot_id", "agent_snapshot_ids"],
+      "properties": {
+        "world_snapshot_id": {
+          "type": "string",
+          "pattern": "^ws_[a-zA-Z0-9_-]+$"
+        },
+        "agent_snapshot_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^as_[a-zA-Z0-9_-]+$"
+          },
+          "minItems": 1
+        },
+        "memory_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^mem_[a-zA-Z0-9_-]+$"
+          }
+        }
+      }
+    },
+    "derived": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Computed metrics. source: derived",
+      "required": ["tension_contribution", "stakes_level"],
+      "properties": {
+        "tension_contribution": { "type": "number", "minimum": 0, "maximum": 1 },
+        "stakes_level": { "type": "string", "enum": ["low", "medium", "high"] }
+      }
+    }
+  }
+}

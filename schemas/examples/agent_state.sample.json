@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "snapshot_id": "as_0001_A",
+  "agent_id": "agent_A",
+  "name": "A",
+  "desire_vector": {
+    "survival": 0.8,
+    "control": 0.7,
+    "belonging": 0.2,
+    "self_actualization": 0.6
+  },
+  "memory_refs": [
+    {
+      "memory_id": "mem_102",
+      "memory_type": "episodic",
+      "confidence": 0.92,
+      "valence": -0.4
+    },
+    {
+      "memory_id": "mem_451",
+      "memory_type": "rumor",
+      "confidence": 0.61,
+      "valence": -0.1
+    }
+  ],
+  "shadow": {
+    "secret": "knows true parentage",
+    "fear": "public_shame",
+    "taboo": "begging"
+  },
+  "relationship_weights": {
+    "agent_B": -0.3,
+    "agent_C": 0.1
+  },
+  "derived": {
+    "stress_index": 0.67,
+    "intent_score": 0.74
+  }
+}
