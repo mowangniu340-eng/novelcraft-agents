@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "event_id": "evt_0001",
+  "event_trace_id": "trace_128_04",
+  "tick": 1,
+  "timestamp": "2026-01-01T10:00:00Z",
+  "actor_id": "agent_A",
+  "action": "lie",
+  "target_ids": ["agent_B"],
+  "resource_delta": {
+    "knowledge": 1,
+    "affect": -0.5
+  },
+  "cause_refs": {
+    "world_snapshot_id": "ws_0001",
+    "agent_snapshot_ids": ["as_0001_A", "as_0001_B"],
+    "memory_refs": ["mem_451"]
+  },
+  "derived": {
+    "tension_contribution": 0.82,
+    "stakes_level": "high"
+  }
+}
